@@ -207,7 +207,17 @@ The action writes a Markdown table to the job summary and `skillrot-results.json
 
 ```python
 import anyio
-from skillrot import Condition, ModelRef, Store, analyze, build_plan, execute, get_harness, load_suite
+from skillrot import (
+    Condition,
+    ModelRef,
+    Store,
+    analyze,
+    build_plan,
+    execute,
+    get_harness,
+    load_suite,
+)
+
 
 async def main() -> None:
     suite = load_suite("skills/csv-summary")
@@ -225,6 +235,7 @@ async def main() -> None:
         await execute(plan, harness=harness, store=store, budget_usd=10)
         bundle = analyze(suite, store)
     print(bundle.model_dump_json(indent=2))
+
 
 anyio.run(main)
 ```
