@@ -1,0 +1,3 @@
+kind: task
+split: holdout
+expected_outcome: "summary.json matches {\"rows\": 3, \"columns\": [\"line\", \"cost\"], \"totals\": {\"cost\": 16.0}}"

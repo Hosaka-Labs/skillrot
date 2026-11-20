@@ -1,0 +1,5 @@
+order_id,status,total
+1,paid,10.00
+2,void,99.00
+3,paid,5.50
+4,VOID,1.00

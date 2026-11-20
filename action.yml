@@ -1,0 +1,33 @@
+name: skillrot check
+description: Check whether your Agent Skills still help on each model.
+branding: { icon: activity, color: orange }
+inputs:
+  skills: { description: Skill folder(s), space-separated, required: true }
+  models: { description: Comma-separated model IDs (default from skillrot.toml), default: "" }
+  tier: { description: smoke, standard or full, default: smoke }
+  escalate: { description: Re-run unclear results at the standard tier, default: "false" }
+  budget-usd: { description: Spending limit per skill, default: "20" }
+  fail-on: { description: "Comma-separated: harmful, redundant, not-triggering, inconclusive, drift", default: harmful }
+  harness: { description: claude-code or anthropic, default: claude-code }
+  skillrot-version: { description: Version spec to install, default: "" }
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with: { python-version: "3.12" }
+    - shell: bash
+      run: pip install "skillrot[anthropic]${{ inputs.skillrot-version }}"
+    - if: inputs.harness == 'claude-code'
+      shell: bash
+      run: npm install -g @anthropic-ai/claude-code
+    - shell: bash
+      env:
+        SKILLS: ${{ inputs.skills }}
+        MODELS: ${{ inputs.models }}
+      run: |
+        args=(check $SKILLS --tier "${{ inputs.tier }}" --harness "${{ inputs.harness }}"
+              --budget-usd "${{ inputs.budget-usd }}" --fail-on "${{ inputs.fail-on }}" --yes
+              --json skillrot-results.json --markdown "$GITHUB_STEP_SUMMARY")
+        [ -n "$MODELS" ] && args+=(--models "$MODELS")
+        [ "${{ inputs.escalate }}" = "true" ] && args+=(--escalate)
+        skillrot "${args[@]}"

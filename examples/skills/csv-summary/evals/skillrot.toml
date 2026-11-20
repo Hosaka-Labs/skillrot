@@ -1,0 +1,8 @@
+type = "capability"
+epsilon = 0.05
+min_cases = 10
+models = ["anthropic/claude-haiku-5-5", "anthropic/claude-sonnet-5-5"]
+harness = "claude-code"
+budget_usd = 10
+timeout_s = 300
+max_turns = 20

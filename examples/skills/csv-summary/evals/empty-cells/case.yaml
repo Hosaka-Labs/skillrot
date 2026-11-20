@@ -1,0 +1,3 @@
+kind: task
+split: dev
+expected_outcome: "summary.json matches {\"rows\": 3, \"columns\": [\"store\", \"q1\", \"q2\"], \"totals\": {\"q1\": 175.0, \"q2\": 275.0}}"

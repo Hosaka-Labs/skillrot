@@ -1,0 +1,3 @@
+kind: task
+split: dev
+expected_outcome: "summary.json matches {\"rows\": 3, \"columns\": [\"order_id\", \"qty\", \"price\"], \"totals\": {\"order_id\": 6.0, \"qty\": 7.0, \"price\": 27.49}}"

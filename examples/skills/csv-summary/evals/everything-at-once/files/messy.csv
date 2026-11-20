@@ -1,0 +1,6 @@
+﻿Order ID;Status;Net Amount (€);Qty
+
+1;paid;€1 200.00;2
+2;VOID;€50.00;1
+3;paid;(€30.00);1
+4;paid;;3

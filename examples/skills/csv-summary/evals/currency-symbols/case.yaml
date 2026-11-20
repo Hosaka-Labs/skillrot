@@ -1,0 +1,3 @@
+kind: task
+split: dev
+expected_outcome: "summary.json matches {\"rows\": 3, \"columns\": [\"region\", \"revenue\"], \"totals\": {\"revenue\": 2195.75}}"

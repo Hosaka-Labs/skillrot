@@ -1,0 +1,3 @@
+kind: task
+split: holdout
+expected_outcome: "summary.json matches {\"rows\": 3, \"columns\": [\"order_id\", \"status\", \"net_amount\", \"qty\"], \"totals\": {\"order_id\": 8.0, \"net_amount\": 1170.0, \"qty\": 6.0}}"

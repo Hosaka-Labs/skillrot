@@ -1,0 +1,94 @@
+[project]
+name = "skillrot"
+version = "0.1.0"
+description = "Measure whether your Agent Skills still help on each new model, and flag the ones that have gone stale."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Hosaka Labs" }]
+requires-python = ">=3.12"
+keywords = ["agent-skills", "claude", "evals", "llm", "skill.md"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+dependencies = [
+    "anyio>=4.16.0",
+    "cyclopts>=5.5.2",
+    "pydantic>=2.14.4",
+    "pyyaml>=6.0.3",
+    "rich>=15.0.0",
+]
+
+[project.optional-dependencies]
+anthropic = [
+    "anthropic>=2.12.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Hosaka-Labs/skillrot"
+Issues = "https://github.com/Hosaka-Labs/skillrot/issues"
+
+[project.scripts]
+skillrot = "skillrot.cli:main"
+
+[project.entry-points."skillrot.harnesses"]
+claude-code = "skillrot.harness.claude_code:ClaudeCodeHarness"
+anthropic = "skillrot.harness.anthropic_api:AnthropicHarness"
+
+[build-system]
+requires = ["uv_build>=0.9,<0.20"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203", "D213", "COM812", "ISC001",  # formatter conflicts
+  "D105", "D107",                       # dunder/init docstrings
+  "TD002", "TD003", "FIX002",
+  "S603", "S607",                       # we run subprocesses on purpose, with arg lists
+  "CPY001",                             # license is in LICENSE
+  "E501",                               # the formatter owns line length
+]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-positional-args = 6
+max-returns = 8
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "D", "PLR2004", "ANN", "INP001", "ARG", "SLF001", "FBT", "TC", "T201", "PLC0415", "RUF059", "SIM105", "E402"]
+"examples/**" = ["INP001", "D", "T201", "S101"]
+
+[tool.pyright]
+include = ["src", "tests"]
+typeCheckingMode = "standard"
+strict = ["src"]
+extraPaths = ["examples"]
+pythonVersion = "3.12"
+venvPath = "."
+venv = ".venv"
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+markers = ["live: calls a real model provider (deselect with -m 'not live')"]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.170.17",
+    "pyright>=1.1.414",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.6",
+    "types-pyyaml>=6.0.12.20261113",
+]
